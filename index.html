@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Controle de Cheques</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Financeiro</p>
+        <h1>Controle de Cheques</h1>
+      </div>
+      <div class="top-actions">
+        <span id="syncStatus" class="sync-status">Modo local</span>
+        <button id="pdfButton">Baixar PDF do dia</button>
+        <button id="exportButton" class="secondary">Exportar CSV</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="entry-panel" aria-labelledby="formTitle">
+        <h2 id="formTitle">Novo lançamento</h2>
+        <form id="checkForm" autocomplete="off">
+          <input type="hidden" id="checkId">
+
+          <label>
+            Fornecedor
+            <input id="supplierInput" name="supplier" list="supplierOptions" required placeholder="Ex.: Papelaria Central">
+            <datalist id="supplierOptions"></datalist>
+          </label>
+
+          <div class="grid-2">
+            <label>
+              Banco
+              <input id="bankInput" name="bank" list="bankOptions" required placeholder="Ex.: Banco do Brasil">
+              <datalist id="bankOptions"></datalist>
+            </label>
+            <label>
+              Nº do cheque
+              <input id="numberInput" name="number" required placeholder="Ex.: 000123">
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Valor
+              <input id="amountInput" name="amount" type="number" min="0" step="0.01" required placeholder="0,00">
+            </label>
+            <label>
+              Vencimento
+              <input id="dueDateInput" name="dueDate" inputmode="numeric" required placeholder="dd/mm ou dd/mm/aaaa">
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Data de envio
+              <input id="sentDateInput" name="sentDate" inputmode="numeric" required placeholder="dd/mm ou dd/mm/aaaa">
+            </label>
+            <label>
+              Status
+              <select id="statusInput" name="status">
+                <option value="Enviado">Enviado</option>
+                <option value="Compensado">Compensado</option>
+                <option value="Cancelado">Cancelado</option>
+                <option value="Atrasado">Atrasado</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Observações
+            <textarea id="notesInput" name="notes" rows="3" placeholder="Ex.: entregue ao representante João"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" id="saveButton">Salvar cheque</button>
+            <button type="button" id="clearButton" class="secondary">Limpar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="content">
+        <div class="summary-grid" aria-label="Resumo dos cheques">
+          <article>
+            <span>Total em aberto</span>
+            <strong id="openTotal">R$ 0,00</strong>
+          </article>
+          <article>
+            <span>Compensados</span>
+            <strong id="paidTotal">R$ 0,00</strong>
+          </article>
+          <article>
+            <span>Próximos 7 dias</span>
+            <strong id="soonCount">0</strong>
+          </article>
+        </div>
+
+        <div class="report-panel">
+          <label>
+            Data do relatório
+            <input id="reportDateInput" inputmode="numeric" placeholder="dd/mm ou dd/mm/aaaa">
+          </label>
+          <p>O PDF mostra os cheques enviados nesta data, separados por fornecedor.</p>
+        </div>
+
+        <div class="toolbar">
+          <input id="searchInput" type="search" placeholder="Buscar fornecedor, banco ou cheque">
+          <select id="filterInput" aria-label="Filtrar por status">
+            <option value="Todos">Todos</option>
+            <option value="Enviado">Enviados</option>
+            <option value="Compensado">Compensados</option>
+            <option value="Cancelado">Cancelados</option>
+            <option value="Atrasado">Atrasados</option>
+          </select>
+        </div>
+
+        <div id="checkList" class="check-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
